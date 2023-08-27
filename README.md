@@ -1,1 +1,3 @@
 # IIS-Grupo-2
+
+Miro grupal: https://miro.com/welcomeonboard/aVowMjBSend0ZEt0dDkwOFNXSE5zVGNCVzFFWWZQTnFKRk1qenZsQ3ZwTUxTdWxwajN4Q1NBSXNPdG0zUkJuT3wzNDU4NzY0NTI0OTgwNTY3ODMwfDI=?share_link_id=294707861775
