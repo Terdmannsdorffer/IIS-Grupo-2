@@ -66,6 +66,31 @@ Datos subidos correctamente!!
 ```
 Listo! 🐣
 
+# 🧭 Acceso a End-Points 🧭
+Se definidio una serie de endpoint para acceder desde el front-end de la web a los diferentes datos presentes en la base datos.Estos puntos de accesos son los siguientes
+
+- Acceso a cursos **[GET]**
+  - Link: `/api/cursos`
+  - Respuesta: Respondera con el NRC y el titulo de todos los cursos
+
+- Acceso a cursos segun NRC **[GET]**
+  - Link: `/api/cursos/<NRC>`
+  - Respuesta: Responda con todas las filas de un curso, segun el NRC entregado
+
+- Acceso a horario del cursos segun NRC **[GET]**
+  - Link: `/api/cursos/<NRC>/horario`
+  - Respuesta: Responda con todas las filas de relacionados a las clases normales de un curso, segun el NRC entregado
+
+- Acceso a pruebas del cursos segun NRC **[GET]**
+  - Link: `/api/cursos/<NRC>/pruebas`
+  - Respuesta: Responda con todas las filas de relacionados a las pruebas de un curso, segun el NRC entregado
+
+- Acceso a examen del cursos segun NRC **[GET]**
+  - Link: `/api/cursos/<NRC>/examen`
+  - Respuesta: Responda con todas las filas de relacionados al examen de un curso, segun el NRC entregado
+
+
+
 # 🔗 Enlaces utiles 🔗
 
 ## [📊Miro](https://miro.com/welcomeonboard/aVowMjBSend0ZEt0dDkwOFNXSE5zVGNCVzFFWWZQTnFKRk1qenZsQ3ZwTUxTdWxwajN4Q1NBSXNPdG0zUkJuT3wzNDU4NzY0NTI0OTgwNTY3ODMwfDI=?share_link_id=294707861775)
