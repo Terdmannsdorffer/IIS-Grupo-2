@@ -23,7 +23,7 @@ Luego, activa el entorno de la siguiente manera, dependiendo de tu sistema opera
 - Acceso mediante Windows:
 
     ```bash
-    cd venv/Scripts/activate
+    venv/Scripts/activate
     ```
 
 ## ⚙️ Desactivar Entorno ⚙️
