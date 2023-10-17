@@ -20,10 +20,10 @@ Luego, activa el entorno de la siguiente manera, dependiendo de tu sistema opera
     source venv/bin/activate
     ```
 
-- Acceso mediante Windows:
+- Acceso mediante Windows (cmd):
 
     ```bash
-    venv/Scripts/activate
+    env/Scripts/activate
     ```
 
 ## ⚙️ Desactivar Entorno ⚙️

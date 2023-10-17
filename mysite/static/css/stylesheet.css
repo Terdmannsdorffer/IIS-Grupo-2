@@ -1,0 +1,31 @@
+/* Estilo para el contenedor principal */
+.search-container {
+    position: relative;
+}
+
+/* Estilo para la lista de resultados */
+.search-results {
+    display: none;
+    position: absolute;
+    width: 95%; /* El mismo ancho que el formulario */
+    top: 100%; /* Alinear la parte superior de la lista con la parte inferior del formulario */
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1;
+    border-radius: 10px;
+}
+
+#resultsList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#resultsList li {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+#resultsList li:hover {
+    background-color: #f0f0f0;
+}

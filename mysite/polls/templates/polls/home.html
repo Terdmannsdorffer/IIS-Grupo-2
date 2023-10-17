@@ -1,13 +1,49 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToRaApp</title>
-    <script src="{% static 'js/index.js' %}"></script>
+    <title>Toma de Ramos</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
-    <h1>Toma de Ramos App</h1>
+    <!-- As a heading -->
+    <nav class="nav text-light bg-dark justify-content-center">
+        <li class="nav-item">
+            <span class="navbar mb-1 mt-1 h1">Toma de Ramos</span>
+          </li>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6 search-container">
+                <form class="form-inline">
+                    <div class="input-group input-group-lg">
+                        <input id="searchInput" class="form-control border-2 border-secondary rounded-pill" type="text" placeholder="Buscar Ramo" aria-label="Buscar">
+                    </div>
+                </form>
+                <div class="search-results">
+                    <ul id="resultsList">
+                        <!-- Aquí se agregarán los elementos de la lista -->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="input-group input-group-lg">
+                    <select id="miSelect" class="form-select form-control w-25 border-2 border-secondary rounded-pill" aria-label="Default select example">
+                        <option selected value="TITULO">Titulo</option>
+                        <option value="NRC">NRC</option>
+                        <option value="PROFESOR">Profesor</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>
