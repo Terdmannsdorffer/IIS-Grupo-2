@@ -1,5 +1,5 @@
 // Realiza una solicitud GET a la URL de todos los cursos
-const URL_BASE = 'http://127.0.0.1:8000'
+const URL_BASE = window.location.origin
 
 let DATA_CURSOS;
 
@@ -26,6 +26,11 @@ let selectElement = document.getElementById("miSelect");
 
 
 let tipoBusqueda = "TITULO"
+
+let Agregar_ramo = (ramoSelect) => {
+  // Aca debe estar la logica
+  console.log("Elemento seleccionado: ", ramoSelect);
+}
 
 let busqueda = () => {
   let searchText = searchInput.value.toLowerCase();
@@ -54,36 +59,30 @@ let busqueda = () => {
       for (let i = 0; i < Math.min(5, res.length); i++) {
         let result = res[i];
     
-        // Título en grande
         let title = document.createElement("h5");
         title.textContent = result.TITULO;
         
-        // Profesor como subtitulo
         let professor = document.createElement("h6");
         professor.textContent = result.PROFESOR;
         
-        // NRC en un párrafo más pequeño
         let nrc = document.createElement("p");
         nrc.textContent = `NRC: ${result.NRC}`;
         
-        // Agregar elementos al resultado
         let item = document.createElement("li");
         item.appendChild(title);
         item.appendChild(professor);
         item.appendChild(nrc);
         
-        // Agregar un manejador de eventos al elemento 'item'
         item.addEventListener("click", function() {
-          let elementoSeleccionado = result;
-          console.log("Elemento seleccionado: ", elementoSeleccionado);
           document.querySelector(".search-results").style.display = "none";
+          Agregar_ramo(result)
         });
 
+        //Agregar elemento a la lista
         resultsList.appendChild(item);
     }
   } else {
-      // Si no hay resultados, oculta la lista de resultados
-      document.querySelector(".search-results").style.display = "none";
+    document.querySelector(".search-results").style.display = "none";
   }
 };
 
