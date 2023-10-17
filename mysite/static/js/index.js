@@ -33,6 +33,7 @@ let Agregar_ramo = (ramoSelect) => {
   console.log("Elemento seleccionado: ", ramoSelect);
   ramosSelected.push(ramoSelect)
   console.log(ramosSelected)
+  localStorage.setItem('ramosSeleccionados', JSON.stringify(ramosSelected));
 }
 
 let busqueda = () => {
