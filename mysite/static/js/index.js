@@ -1,3 +1,4 @@
+document.addEventListener('DOMContentLoaded', function() {
 // Realiza una solicitud GET a la URL de todos los cursos
 const URL_BASE = window.location.origin
 
@@ -28,6 +29,7 @@ fetch(URL_BASE+'/api/cursos')
     // Maneja errores de solicitud
     console.error(error);
   });
+
 
 let get_HorarioNrc = (nrcRamo) => {
   return fetch(URL_BASE+'/api/curso/NRC/' + nrcRamo + '/horario')
@@ -242,3 +244,5 @@ document.addEventListener("click", function(event) {
 });
 
 crearHorario();
+
+});
