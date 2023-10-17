@@ -9,6 +9,7 @@ let selectElement = document.getElementById("miSelect");
 let DATA_CURSOS;
 let ramosSelected = []
 let tipoBusqueda = "TITULO"
+let diaSemana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']
 
 fetch(URL_BASE+'/api/cursos')
   .then(response => {
@@ -28,6 +29,51 @@ fetch(URL_BASE+'/api/cursos')
     console.error(error);
   });
 
+let get_HorarioNrc = (nrcRamo) => {
+  return fetch(URL_BASE+'/api/curso/NRC/' + nrcRamo + '/horario')
+    .then(response => {
+      if (response.ok) {
+        // Si la respuesta es exitosa, convierte la respuesta a JSON y retorna la promesa
+        return response.json();
+      }
+      throw new Error('Error al obtener los datos');
+    })
+    .catch(error => {
+      // Maneja errores de solicitud
+      console.error(error);
+    });
+}
+
+let actualizar_horario = () => {
+  let contenedor = document.getElementById("horario");
+  crearHorario();
+  console.log("actualizar_horario")
+  ramosSelected.map(ramo => {
+    get_HorarioNrc(ramo.NRC).then(data => {
+      console.log(ramo)
+      data.map(clase => {
+        console.log(clase)
+        diaSemana.map(dia =>{
+          if (clase[dia] != "") {
+            let startClase = clase[dia].split("-")[0]
+            let EndClase = clase[dia].split("-")[1]
+            
+            for (let i = parseInt(startClase.split(":")[0]); `${i}:20` != EndClase; i++) {
+              console.log(`${dia} ${startClase} ${EndClase}`)
+              console.log("ADD HOUR")
+              let celda = document.getElementById(`${i}-${dia}`);
+              celda.innerHTML += `<p>${clase.TIPO} - ${ramo.TITULO}</p>`
+            }
+            
+          }
+        })
+      })
+    }).catch(error => {c
+      console.error(error);
+    });
+  });
+}
+
 let actualizar_lista = () => {
   let contenedor = document.getElementById("ListaRamos");
   contenedor.innerHTML = ""
@@ -40,19 +86,28 @@ let actualizar_lista = () => {
     // Crea un nuevo elemento <a>
     var nuevoElemento = document.createElement("a");
     nuevoElemento.href = "#";
-    nuevoElemento.className = "list-group-item list-group-item-action flex-column align-items-start custom-hover";
+    nuevoElemento.className = "list-group-item list-group-item-action flex-column align-items-start";
 
     nuevoElemento.addEventListener("click", function() {
       // Obtiene el valor del nrc del elemento
       var nrcValue = nrc;
       eliminar_ramo(nrc);
-  });
+    });
+
+    let isMouseHover = false
+    nuevoElemento.addEventListener("mouseleave", function (event) {
+      nuevoElemento.classList.remove("list-group-item-danger");
+    }, false);
+    nuevoElemento.addEventListener("mouseover", function (event) {
+      nuevoElemento.classList.add("list-group-item-danger");
+    }, false);
+
 
     // Contenido HTML del nuevo elemento
     nuevoElemento.innerHTML = `
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">${ramo}</h5>
-        <small class="text-danger">
+        <small>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
           </svg>
@@ -74,6 +129,7 @@ let eliminar_ramo = (nrcRamo) => {
   console.log("Borrado")
   ramosSelected = ramosSelected.filter(elemento => elemento.NRC !== nrcRamo);
   actualizar_lista();
+  actualizar_horario();
   localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
 }
 
@@ -82,9 +138,36 @@ let Agregar_ramo = (ramoSelect) => {
   console.log("Elemento seleccionado: ", ramoSelect);
   ramosSelected.push(ramoSelect)
   actualizar_lista();
+  actualizar_horario();
   console.log(ramosSelected)
   localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
   
+}
+
+let crearHorario = () => {
+  let tabla = document.getElementById("horario");
+  tabla.innerHTML = ""
+  for (let i = 8; i < 20; i++) {
+    // Obtén una referencia al elemento tbody
+    
+
+    // Crea un nuevo elemento <tr>
+    var nuevoFila = document.createElement("tr");
+
+    // Define el contenido HTML para la nueva fila
+    nuevoFila.innerHTML = '<th scope="row">'+ `${i}:30` +'</th>' +
+                        '<th scope="row">'+ `${i+1}:20` +'</th>' +
+                        '<td' + ` id="${i}-LUNES"` +  '></td>' +
+                        '<td' + ` id="${i}-MARTES"` +  '></td>' +
+                        '<td' + ` id="${i}-MIERCOLES"` +  '></td>' +
+                        '<td' + ` id="${i}-JUEVES"` +  '></td>' +
+                        '<td' + ` id="${i}-VIERNES"` +  '></td>' +
+                        '<td' + ` id="${i}-SABADO"` +  '></td>' +
+                        '<td' + ` id="${i}-DOMINGO"` +  '></td>';
+
+    // Agrega la nueva fila al tbody
+    tabla.appendChild(nuevoFila);
+  }
 }
 
 let busqueda = () => {
@@ -143,7 +226,6 @@ let busqueda = () => {
   }
 };
 
-
 selectElement.addEventListener("change", function () {
   tipoBusqueda = selectElement.value;
   console.log("Valor seleccionado: " + tipoBusqueda);
@@ -159,24 +241,4 @@ document.addEventListener("click", function(event) {
   }
 });
 
-for (let i = 8; i < 20; i++) {
-  // Obtén una referencia al elemento tbody
-  let tabla = document.getElementById("horario");
-
-  // Crea un nuevo elemento <tr>
-  var nuevoFila = document.createElement("tr");
-
-  // Define el contenido HTML para la nueva fila
-  nuevoFila.innerHTML = '<th scope="row">'+ `${i}:30` +'</th>' +
-                      '<th scope="row">'+ `${i+1}:20` +'</th>' +
-                      '<td' + ` class="${i}:30-LUNES ${i+1}:20-LUNES"` +  '></td>' +
-                      '<td' + ` class="${i}:30-MARTES ${i+1}:20-MARTES"` +  '></td>' +
-                      '<td' + ` class="${i}:30-MIERCOLES ${i+1}:20-MIERCOLES"` +  '></td>' +
-                      '<td' + ` class="${i}:30-JUEVES ${i+1}:20-JUEVES"` +  '></td>' +
-                      '<td' + ` class="${i}:30-VIERNES ${i+1}:20-VIERNES"` +  '></td>' +
-                      '<td' + ` class="${i}:30-SABADO ${i+1}:20-SABADO"` +  '></td>' +
-                      '<td' + ` class="${i}:30-DOMINGO ${i+1}:20-DOMINGO"` +  '></td>';
-
-  // Agrega la nueva fila al tbody
-  tabla.appendChild(nuevoFila);
-}
+crearHorario();

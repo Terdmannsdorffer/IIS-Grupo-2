@@ -83,7 +83,7 @@ def api_cursos_nrc_tipo(request, nrc, tipo):
             return JsonResponse({'error': 'NRC no encontrado'}, status=404)   
         
         elif tipo == "horario":
-            registros_lista = list(registros.filter(~Q(TIPO__regex=r"(^PR.*)|(^EX.*)")).values())   
+            registros_lista = list(registros.filter(~Q(TIPO__regex=r"(^PR.*)|(^EX.*)")).values('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO','TIPO' ))   
             return JsonResponse(registros_lista, safe=False)      
         elif tipo == "pruebas":
             registros_lista = list(registros.filter(Q(TIPO__regex=r"(^PR.*)")).values())   
