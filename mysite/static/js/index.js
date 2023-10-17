@@ -46,8 +46,6 @@ let busqueda = () => {
   let resultsList = document.getElementById("resultsList");
   resultsList.innerHTML = ""; // Limpia la lista de resultados
 
-  console.log(res)
-
   if (res.length > 0) {
       // Si hay resultados, muestra la lista de resultados
       document.querySelector(".search-results").style.display = "block";
@@ -55,9 +53,32 @@ let busqueda = () => {
       // Recorre los resultados y agrega elementos <li> a la lista de resultados
       for (let i = 0; i < Math.min(5, res.length); i++) {
         let result = res[i];
+    
+        // Título en grande
+        let title = document.createElement("h5");
+        title.textContent = result.TITULO;
+        
+        // Profesor como subtitulo
+        let professor = document.createElement("h6");
+        professor.textContent = result.PROFESOR;
+        
+        // NRC en un párrafo más pequeño
+        let nrc = document.createElement("p");
+        nrc.textContent = `NRC: ${result.NRC}`;
+        
+        // Agregar elementos al resultado
         let item = document.createElement("li");
-        // Supongamos que 'result' tiene tres propiedades: result.prop1, result.prop2, result.prop3
-        item.textContent = `NRC: ${result.NRC}, Titulo: ${result.TITULO}, Profesor: ${result.PROFESOR}`;
+        item.appendChild(title);
+        item.appendChild(professor);
+        item.appendChild(nrc);
+        
+        // Agregar un manejador de eventos al elemento 'item'
+        item.addEventListener("click", function() {
+          let elementoSeleccionado = result;
+          console.log("Elemento seleccionado: ", elementoSeleccionado);
+          document.querySelector(".search-results").style.display = "none";
+        });
+
         resultsList.appendChild(item);
     }
   } else {
@@ -75,3 +96,9 @@ selectElement.addEventListener("change", function () {
 
 searchInput.addEventListener("input", busqueda);
 searchInput.addEventListener("focus", busqueda);
+
+document.addEventListener("click", function(event) {
+  if (event.target !== searchInput) {
+    document.querySelector(".search-results").style.display = "none";
+  }
+});
