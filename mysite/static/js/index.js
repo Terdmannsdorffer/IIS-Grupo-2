@@ -1,7 +1,14 @@
 // Realiza una solicitud GET a la URL de todos los cursos
 const URL_BASE = window.location.origin
 
+// DOM VARS
+let searchInput = document.getElementById("searchInput");
+let selectElement = document.getElementById("miSelect"); 
+
+// AUX VARS
 let DATA_CURSOS;
+let ramosSelected = []
+let tipoBusqueda = "TITULO"
 
 fetch(URL_BASE+'/api/cursos')
   .then(response => {
@@ -21,15 +28,11 @@ fetch(URL_BASE+'/api/cursos')
     console.error(error);
   });
 
-let searchInput = document.getElementById("searchInput");
-let selectElement = document.getElementById("miSelect"); 
-
-
-let tipoBusqueda = "TITULO"
-
 let Agregar_ramo = (ramoSelect) => {
   // Aca debe estar la logica
   console.log("Elemento seleccionado: ", ramoSelect);
+  ramosSelected.push(ramoSelect)
+  console.log(ramosSelected)
 }
 
 let busqueda = () => {
@@ -45,6 +48,8 @@ let busqueda = () => {
   const regex = new RegExp(searchText.toString(), 'i');
   let res = DATA_CURSOS.filter(elemento => {
       return regex.test(elemento[tipoBusqueda].toString());
+  }).filter(elementoRes => {
+    return !ramosSelected.some(elementoRamo => elementoRamo.NRC === elementoRes.NRC);
   });
 
   // Obtén el elemento de la lista de resultados
