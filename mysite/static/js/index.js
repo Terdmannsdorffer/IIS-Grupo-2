@@ -30,6 +30,11 @@ fetch(URL_BASE+'/api/cursos')
     console.error(error);
   });
 
+let refresh_horario = () => {
+  actualizar_lista();
+  actualizar_horario();
+  actualizar_creditos();
+}
 
 let get_HorarioNrc = (nrcRamo) => {
   return fetch(URL_BASE+'/api/curso/NRC/' + nrcRamo + '/horario')
@@ -46,8 +51,22 @@ let get_HorarioNrc = (nrcRamo) => {
     });
 }
 
+let get_RamoNrc = (nrcRamo) => {
+  return fetch(URL_BASE+'/api/curso/NRC/' + nrcRamo)
+    .then(response => {
+      if (response.ok) {
+        // Si la respuesta es exitosa, convierte la respuesta a JSON y retorna la promesa
+        return response.json();
+      }
+      throw new Error('Error al obtener los datos');
+    })
+    .catch(error => {
+      // Maneja errores de solicitud
+      console.error(error);
+    });
+}
+
 let actualizar_horario = () => {
-  let contenedor = document.getElementById("horario");
   crearHorario();
   console.log("actualizar_horario")
   ramosSelected.map(ramo => {
@@ -126,12 +145,25 @@ let actualizar_lista = () => {
 
 }
 
+let actualizar_creditos = () => {
+  let creditCounter = document.getElementById("CreditValue");
+  let counter = 0
+  creditCounter.innerHTML = 0
+  ramosSelected.map(ramo => {
+    get_RamoNrc(ramo.NRC).then(data => {
+      counter += parseInt(data[0].CREDITO)
+      creditCounter.innerHTML = counter
+      return
+    })
+  })
+}
+
+
 let eliminar_ramo = (nrcRamo) => {
   console.log(nrcRamo)
   console.log("Borrado")
   ramosSelected = ramosSelected.filter(elemento => elemento.NRC !== nrcRamo);
-  actualizar_lista();
-  actualizar_horario();
+  refresh_horario();
   localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
 }
 
@@ -139,8 +171,7 @@ let Agregar_ramo = (ramoSelect) => {
   // Aca debe estar la logica
   console.log("Elemento seleccionado: ", ramoSelect);
   ramosSelected.push(ramoSelect)
-  actualizar_lista();
-  actualizar_horario();
+  refresh_horario();
   console.log(ramosSelected)
   localStorage.setItem('ramosSelectedSave', JSON.stringify(ramosSelected));
   
