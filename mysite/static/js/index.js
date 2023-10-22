@@ -30,6 +30,35 @@ fetch(URL_BASE+'/api/cursos')
     console.error(error);
   });
 
+let stringToColorCode = (inputString) => {
+  let hash = 0;
+  for (let i = 0; i < inputString.length; i++) {
+    hash = (hash * 397) ^ (inputString.charCodeAt(i) * 743);
+  }
+  const color = (hash & 0x00FFFFFF).toString(16).toUpperCase();
+  return "00000".substring(0, 6 - color.length) + color;
+}
+
+let make_color = (base) => {
+  const sumaDigitos = (numero) => numero.toString().split('').reduce((suma, digito) => suma + parseInt(digito, 10), 0);
+  const type = sumaDigitos(base)
+  const new_base = stringToColorCode(String(base))
+  const hex_base = "FC"
+  console.log(type)
+  let result;
+  if (base%2) {
+    result = new_base[1] + new_base[2] + hex_base + new_base[0] + new_base[3]
+  }
+  else if (base%3) {
+    result = hex_base + new_base[2] + new_base[0] + new_base[2] + new_base[3] 
+  }
+  else {
+    result =  new_base[3] + new_base[0] + new_base[2] + new_base[1] + hex_base
+  }
+  console.log(result)
+  return result
+}
+
 let refresh_horario = () => {
   actualizar_lista();
   actualizar_horario();
@@ -114,13 +143,17 @@ let actualizar_horario = () => {
               console.log(`${dia} ${startClase} ${EndClase}`)
               console.log("ADD HOUR")
               let celda = document.getElementById(`${i}-${dia}`);
-              celda.innerHTML += `<p>${clase.TIPO} - ${ramo.TITULO}</p>`
+              make_color
+              celda.innerHTML += `<p 
+                                  style="background-color: #${make_color(ramo.NRC)};
+                                  padding: 5px;
+                                  ">${clase.TIPO} - ${ramo.TITULO}</p>`
             }
             
           }
         })
       })
-    }).catch(error => {c
+    }).catch(error => {
       console.error(error);
     });
   });
