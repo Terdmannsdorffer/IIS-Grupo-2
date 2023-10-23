@@ -29,3 +29,11 @@
 #resultsList li:hover {
     background-color: #f0f0f0;
 }
+
+.equal-column {
+    width: 12.5%; /* 100% dividido por 8 columnas */
+}
+
+.equal-row {
+    height: 50px; /* Establece la altura deseada para todas las filas */
+}

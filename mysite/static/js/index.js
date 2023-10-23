@@ -10,7 +10,13 @@ let selectElement = document.getElementById("miSelect");
 let DATA_CURSOS;
 let ramosSelected = []
 let tipoBusqueda = "TITULO"
-let diaSemana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']
+const diaSemana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO']
+const banned_words = [
+  "de", "a", "en", "con", "por", "para", "sin", "ante", "sobre",
+  "entre", "tras", "durante", "según", "mediante", "y", "o", "pero", "aunque",
+  "porque", "si", "cuando", "mientras", "así que", "por lo tanto", "además",
+  "por otro lado", "sin embargo", "por tanto", "de hecho", "e", "y", "la"
+];
 
 fetch(URL_BASE+'/api/cursos')
   .then(response => {
@@ -39,25 +45,48 @@ let stringToColorCode = (inputString) => {
   return "00000".substring(0, 6 - color.length) + color;
 }
 
+function lightenColor(hex, factor) {
+  // Parse el color HEX a RGB
+  let r = parseInt(hex.slice(1, 3), 16);
+  let g = parseInt(hex.slice(3, 5), 16);
+  let b = parseInt(hex.slice(5, 7), 16);
+
+  // Aumenta los componentes de color
+  r = Math.min(255, r + factor);
+  g = Math.min(255, g + factor);
+  b = Math.min(255, b + factor);
+
+  // Convierte de nuevo a HEX
+  const newHex = `${(1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1)}`;
+
+  return newHex;
+}
+
 let make_color = (base) => {
   const sumaDigitos = (numero) => numero.toString().split('').reduce((suma, digito) => suma + parseInt(digito, 10), 0);
   const type = sumaDigitos(base)
   const new_base = stringToColorCode(String(base))
-  const hex_base = "FC"
+  const hex_base = "F1"
   console.log(type)
   let result;
   if (base%2) {
-    result = new_base[1] + new_base[2] + hex_base + new_base[0] + new_base[3]
-  }
-  else if (base%3) {
-    result = hex_base + new_base[2] + new_base[0] + new_base[2] + new_base[3] 
+    result = "#" + new_base[1] + new_base[2] + hex_base + new_base[0] + new_base[3]
   }
   else {
-    result =  new_base[3] + new_base[0] + new_base[2] + new_base[1] + hex_base
+    result = "#" + new_base[3] + new_base[0] + new_base[2] + new_base[1] + hex_base
   }
   console.log(result)
-  return result
+  return lightenColor(result, 70)
 }
+
+const resume_title = (title) => {
+  const palabras = title.split(' ');
+  const iniciales = palabras
+    .filter(palabra => !banned_words.includes(palabra.toLowerCase()))
+    .map(palabra => palabra[0])
+    .slice(0, 5);
+  return iniciales.join('');
+};
 
 let refresh_horario = () => {
   actualizar_lista();
@@ -70,7 +99,6 @@ let check_ramos = () => {
   let contenedor = document.getElementById("clean-all");
   contenedor.innerHTML = "";
 
-  console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa");
 
   if (ramosSelected.length != 0) {
     // Crear el elemento de limpieza
@@ -147,7 +175,10 @@ let actualizar_horario = () => {
               celda.innerHTML += `<p 
                                   style="background-color: #${make_color(ramo.NRC)};
                                   padding: 5px;
-                                  ">${clase.TIPO} - ${ramo.TITULO}</p>`
+                                  border-radius: 5px;
+                                  font-weight: bold;
+                                  margin: 0px;
+                                  ">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)}</p>`
             }
             
           }
@@ -167,11 +198,13 @@ let actualizar_lista = () => {
     var ramo = ele.TITULO;
     var profesor = ele.PROFESOR;
     var nrc = ele.NRC;
+    var color_nrc = make_color(nrc)
 
     // Crea un nuevo elemento <a>
     var nuevoElemento = document.createElement("a");
     nuevoElemento.href = "#";
     nuevoElemento.className = "list-group-item list-group-item-action flex-column align-items-start";
+    nuevoElemento.style.backgroundColor = "#" + color_nrc;
 
     nuevoElemento.addEventListener("click", function() {
       // Obtiene el valor del nrc del elemento
@@ -182,16 +215,19 @@ let actualizar_lista = () => {
     let isMouseHover = false
     nuevoElemento.addEventListener("mouseleave", function (event) {
       nuevoElemento.classList.remove("list-group-item-danger");
+      nuevoElemento.style.backgroundColor = "#" + color_nrc;
+      
     }, false);
     nuevoElemento.addEventListener("mouseover", function (event) {
       nuevoElemento.classList.add("list-group-item-danger");
+      nuevoElemento.removeAttribute("style");
     }, false);
 
 
     // Contenido HTML del nuevo elemento
     nuevoElemento.innerHTML = `
       <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">${ramo}</h5>
+        <h5 class="mb-1">[${resume_title(ramo)}] ${ramo}</h5>
         <small>
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
             <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
@@ -250,7 +286,7 @@ let crearHorario = () => {
 
     // Crea un nuevo elemento <tr>
     var nuevoFila = document.createElement("tr");
-
+    nuevoFila.classList.add("equal-row");
     // Define el contenido HTML para la nueva fila
     nuevoFila.innerHTML = '<th scope="row">'+ `${i}:30` +'</th>' +
                         '<th scope="row">'+ `${i+1}:20` +'</th>' +
