@@ -1,0 +1,47 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Course Details</title>
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="container">
+        <h1>{{ course.TITULO }}</h1>
+        <div class="row">
+            <div class="col-md-4">
+                <p><strong>Profesor:</strong> {{ course.PROFESOR }}</p>
+                <p><strong>NRC:</strong> {{ course.NRC }}</p>
+                <p><strong>Sala:</strong> {{ course.SALA }}</p>
+                <p><strong>Periodo:</strong> {{ course.PERIODO }}</p>
+                <p><strong>Seccion:</strong> {{ course.SECCION }}</p>
+                <p><strong>Credito:</strong> {{ course.CREDITO }}</p>
+            </div>
+            <div class="col-md-4">
+                <p><strong>Lunes:</strong> {{ course.LUNES }}</p>
+                <p><strong>Martes:</strong> {{ course.MARTES }}</p>
+                <p><strong>Miercoles:</strong> {{ course.MIERCOLES }}</p>
+                <p><strong>Jueves:</strong> {{ course.JUEVES }}</p>
+                <p><strong>Viernes:</strong> {{ course.VIERNES }}</p>
+                <p><strong>Sabado:</strong> {{ course.SABADO }}</p>
+                <p><strong>Domingo:</strong> {{ course.DOMINGO }}</p>
+                <p><strong>Inicio:</strong> {{ course.INICIO }}</p>
+                <p><strong>Fin:</strong> {{ course.FIN }}</p>
+                <p><strong>Tipo:</strong> {{ course.TIPO }}</p>
+                
+            </div>
+            <div class="col-md-4">
+                <p><strong>Curso:</strong> {{ course.CURSO }}</p>
+                <p><strong>Materia:</strong> {{ course.MATERIA }}</p>
+                <p><strong>Plan de Estudios:</strong> {{ course.PLAN_DE_ESTUDIOS }}</p>
+                <p><strong>Escuela:</strong> {{ course.ESCUELA }}</p>
+                <p><strong>Conector Liga:</strong> {{ course.CONECTOR_LIGA }}</p>
+                <p><strong>Lista Cruzada:</strong> {{ course.LISTA_CRUZADA }}</p>
+            </div>
+       
+        </div>
+    </div>
+
+    {% bootstrap_javascript %}
+</body>
+</html>

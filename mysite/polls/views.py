@@ -6,6 +6,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from .models import tablaRamos
 from django.db.models import Q
+from django.shortcuts import render, get_object_or_404
 
 
 def index(request):
@@ -94,4 +95,9 @@ def api_cursos_nrc_tipo(request, nrc, tipo):
         else:
             return JsonResponse({'error': 'Método no permitido'}, status=405)
     return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+## New
+def course_detail(request, course_id):
+    course = get_object_or_404(tablaRamos, pk=course_id)
+    return render(request, 'polls/course_detail.html', {'course': course})
 
