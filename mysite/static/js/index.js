@@ -189,7 +189,13 @@ let actualizar_horario = () => {
               console.log(`${dia} ${startClase} ${EndClase}`)
               console.log("ADD HOUR")
               let celda = document.getElementById(`${i}-${dia}`);
-
+              if (celda.innerHTML == "") {
+                celda.style.backgroundColor = "";
+              }
+              else {
+                // ACA SE EJECUTA EL MENSAJE PARA AVISAR QUE HAY TOPE
+                celda.style.backgroundColor = "#F88379";
+              }
               celda.innerHTML += `<p 
                                   style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])};
                                   padding: 5px;
@@ -197,6 +203,7 @@ let actualizar_horario = () => {
                                   font-weight: bold;
                                   margin: 0px;
                                   ">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)}</p>`
+              
             }
             
           }
