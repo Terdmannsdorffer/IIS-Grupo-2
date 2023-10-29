@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Toma de Ramos</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/stylesheet.css' %}">
+    <script src="{% static 'js/html2canvas.js' %}"></script>
     <script src="{% static 'js/index.js' %}"></script>
     {% load bootstrap5 %}
     {% bootstrap_css %}
@@ -17,8 +18,9 @@
     <nav class="nav text-light bg-dark justify-content-center">
         <li class="nav-item">
             <span class="navbar mb-1 mt-1 h1">Toma de Ramos</span>
-          </li>
+        </li>
     </nav>
+    
 
     <div class="container mt-4">
         <div class="row justify-content-center">
@@ -49,7 +51,7 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-12 col-md-9 table-responsive">
-                <table class="table table-bordered table-fixed">
+                <table id="MainTable" class="table table-bordered table-fixed">
                     <thead class="thead-dark">
                       <tr>
                         <th scope="col" colspan="2"></th>
@@ -67,13 +69,16 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-12 col-md-3">
-                <div class="card mb-2">
-                    <div class="card-body justify-content-center">
-                        <h4>Creditos: <span id="CreditValue">0<span></h4>
+            <div class="col-12 col-md-3 ">
+                <div class="justify-content-center align-items-center">
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <h4>Creditos: <span id="CreditValue">0</span></h4>
+                        </div>
                     </div>
                 </div>
-                <div class="card">
+                
+                <div class="card mt-1">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-10 col-md-10">
@@ -84,10 +89,38 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-body" style="max-height: 411px; overflow-y: auto; height:450px">
+                    <div class="card-body" style="max-height: 415px; overflow-y: auto; height:450px">
                         <div id="ListaRamos" class="list-group" >
                         </div>
                     </div>
+                </div>
+                <div class="card mt-1">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-10 col-md-10">
+                                Descargas
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-4">
+                                <button id="SaveHorarioBtn" type="button" class="btn btn-secondary btn-sm w-100">
+                                    Horario
+                                </button>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <button id="SaveDetallesoBtn" type="button" class="btn btn-secondary btn-sm w-100">
+                                    Detalle
+                                </button>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <button id="SaveDetallesoBtn" type="button" class="btn btn-secondary btn-sm w-100">
+                                    Pruebas
+                                </button>
+                            </div>
+                        </div>
+                    </div>                                      
                 </div>
                 
             </div>

@@ -62,7 +62,20 @@ function lightenColor(hex, factor) {
   return newHex;
 }
 
-let make_color = (base) => {
+function esColorClaro(hexColor, umbral = 128) {
+  // Convierte el color hexadecimal a valores RGB
+  const r = parseInt(hexColor.slice(1, 3), 16);
+  const g = parseInt(hexColor.slice(3, 5), 16);
+  const b = parseInt(hexColor.slice(5, 7), 16);
+
+  // Calcula la luminancia
+  const luminancia = 0.299 * r + 0.587 * g + 0.114 * b;
+
+  // Compara la luminancia con el umbral
+  return luminancia > umbral;
+}
+
+let make_color = (base, tipo="C") => {
   const sumaDigitos = (numero) => numero.toString().split('').reduce((suma, digito) => suma + parseInt(digito, 10), 0);
   const type = sumaDigitos(base)
   const new_base = stringToColorCode(String(base))
@@ -75,8 +88,14 @@ let make_color = (base) => {
   else {
     result = "#" + new_base[3] + new_base[0] + new_base[2] + new_base[1] + hex_base
   }
-  console.log(result)
-  return lightenColor(result, 70)
+  
+  factor = esColorClaro(result) ? 30 : 100
+  if (tipo != "C") {
+    console.log("Is ayun")
+    factor += 15
+  }
+  
+  return lightenColor(result, factor)
 }
 
 const resume_title = (title) => {
@@ -166,14 +185,13 @@ let actualizar_horario = () => {
           if (clase[dia] != "") {
             let startClase = clase[dia].split("-")[0]
             let EndClase = clase[dia].split("-")[1]
-            
             for (let i = parseInt(startClase.split(":")[0]); `${i}:20` != EndClase; i++) {
               console.log(`${dia} ${startClase} ${EndClase}`)
               console.log("ADD HOUR")
               let celda = document.getElementById(`${i}-${dia}`);
-              make_color
+
               celda.innerHTML += `<p 
-                                  style="background-color: #${make_color(ramo.NRC)};
+                                  style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])};
                                   padding: 5px;
                                   border-radius: 5px;
                                   font-weight: bold;
@@ -359,6 +377,29 @@ let busqueda = () => {
   }
 };
 
+let SaveHorario = () => {
+  console.log("saveeee")
+  const elementToConvert = document.getElementById('MainTable'); 
+
+  html2canvas(elementToConvert).then(function(canvas) {
+    canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+
+        // Crea un enlace de descarga
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'mi_imagen.png'; // Nombre predeterminado del archivo
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // Libera el recurso URL
+        URL.revokeObjectURL(url);
+    });
+  });
+}
+
 selectElement.addEventListener("change", function () {
   tipoBusqueda = selectElement.value;
   console.log("Valor seleccionado: " + tipoBusqueda);
@@ -381,6 +422,8 @@ if (localStorage.getItem('ramosSelectedSave') !== null) {
   console.log(ramosSelected);
   refresh_horario();
 }
+
+document.getElementById('SaveHorarioBtn').addEventListener('click', SaveHorario);
 
 
 
