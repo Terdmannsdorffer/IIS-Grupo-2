@@ -193,7 +193,7 @@ let actualizar_horario = () => {
                 celda.style.backgroundColor = "";
               }
               else {
-                // ACA SE EJECUTA EL MENSAJE PARA AVISAR QUE HAY TOPE
+                mostrarNotificacion();
                 celda.style.backgroundColor = "#F88379";
               }
               celda.innerHTML += `<p 
@@ -407,6 +407,19 @@ let SaveHorario = () => {
   });
 }
 
+let mostrarNotificacion = () => {
+  var notification = document.getElementById("notification");
+  notification.style.display = "block";
+  setTimeout(function() {
+      cerrarNotificacion();
+  }, 5000); // 10000 ms = 10 segundos
+}
+
+let cerrarNotificacion = () => {
+  var notification = document.getElementById("notification");
+  notification.style.display = "none";
+}
+
 selectElement.addEventListener("change", function () {
   tipoBusqueda = selectElement.value;
   console.log("Valor seleccionado: " + tipoBusqueda);
@@ -422,6 +435,7 @@ document.addEventListener("click", function(event) {
   }
 });
 
+
 crearHorario();
 
 if (localStorage.getItem('ramosSelectedSave') !== null) {
@@ -429,6 +443,7 @@ if (localStorage.getItem('ramosSelectedSave') !== null) {
   console.log(ramosSelected);
   refresh_horario();
 }
+
 
 document.getElementById('SaveHorarioBtn').addEventListener('click', SaveHorario);
 

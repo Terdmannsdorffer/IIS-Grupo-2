@@ -38,3 +38,19 @@
     height: 50px; /* Establece la altura deseada para todas las filas */
 }
 
+.notification {
+    position: fixed;
+    bottom: 30px; /* Puedes ajustar esto para cambiar la posición vertical */
+    right: 30px; /* Puedes ajustar esto para cambiar la posición horizontal */
+    background-color: #c86262;
+    color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    display: none;
+    z-index: 9999;
+}
+
+.notification p {
+    margin: 0;
+}
+
