@@ -89,11 +89,14 @@ let make_color = (base, tipo="C") => {
     result = "#" + new_base[3] + new_base[0] + new_base[2] + new_base[1] + hex_base
   }
   
-  factor = esColorClaro(result) ? 30 : 100
+  factor = esColorClaro(result) ? 0 : 100
   if (tipo != "C") {
+    
+    factor += 30
     console.log("Is ayun")
-    factor += 15
+    
   }
+  console.log(factor)
   
   return lightenColor(result, factor)
 }
@@ -354,7 +357,7 @@ let busqueda = () => {
       document.querySelector(".search-results").style.display = "block";
 
       // Recorre los resultados y agrega elementos <li> a la lista de resultados
-      for (let i = 0; i < Math.min(5, res.length); i++) {
+      for (let i = 0; i < res.length; i++) {
         let result = res[i];
     
         let title = document.createElement("h5");

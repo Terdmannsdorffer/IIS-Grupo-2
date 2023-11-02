@@ -13,6 +13,14 @@
     border: 1px solid #ccc;
     z-index: 1;
     border-radius: 10px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.resume-bar {
+    max-height: 415px; 
+    overflow-y: auto; 
+    height:415px
 }
 
 #resultsList {
