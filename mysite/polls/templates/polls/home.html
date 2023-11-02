@@ -31,7 +31,7 @@
         <div class="row justify-content-center">
 
             <!-- searchbar -->
-            <div class="col-lg-6 search-container">
+            <div class="col-lg-6 search-container mt-1">
                 <form class="form-inline">
                     <div class="input-group input-group-lg">
                         <input id="searchInput" class="form-control border-2 border-secondary rounded-pill" type="text" placeholder="Buscar Ramo" aria-label="Buscar">
@@ -45,7 +45,7 @@
             </div>
 
             <!-- Select type -->
-            <div class="col-lg-2">
+            <div class="col-lg-2 mt-1">
                 <div class="input-group input-group-lg">
                     <select id="miSelect" class="form-select form-control w-25 border-2 border-secondary rounded-pill" aria-label="Default select example">
                         <option selected value="TITULO">Titulo</option>
@@ -82,27 +82,19 @@
                 </table>
             </div>
             <!-- Resume-bar type -->
-            <div class="col-xxl-3 col-sm-12 col-lg-6 h-100">
-                <div class="justify-content-center align-items-center">
-                    <div class="card">
-                        <div class="card-body d-flex justify-content-center align-items-center">
-                            <h4>Creditos: <span id="CreditValue">0</span></h4>
-                        </div>
-                    </div>
-                </div>
-                
+            <div class="col-xxl-3 col-sm-12 col-lg-6 h-100">                
                 <div class="card mt-1">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-10 col-md-10">
-                                Ramos
+                                Ramos [ Creditos: <span id="CreditValue">0</span> ]
                             </div>
                             <div id="clean-all"class="col-2 col-md-2">
 
                             </div>
                         </div>
                     </div>
-                    <div class="card-body resume-bar">
+                    <div class="card-body resume-list">
                         <div id="ListaRamos" class="list-group" >
                         </div>
                     </div>
@@ -138,25 +130,25 @@
             <div class="col-xxl-12 col-sm-12 col-lg-6 h-100">
                 <div class="card mt-1">
                     <div class="card-header">
-                        Pruebas
+                        Evaluaciones
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-xxl-6 col-sm-12">
+                            <div class="col-xxl-8 col-sm-12">
                                 <div class="card mt-1">
                                     <div class="card-header">
                                         Pruebas
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body resume-list-eval">
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xxl-6 col-sm-12">
+                            <div class="col-xxl-4 col-sm-12">
                                 <div class="card mt-1">
                                     <div class="card-header">
                                         Examenes
                                     </div>
-                                    <div class="card-body">
+                                    <div class="card-body resume-list-eval">
                                     </div>
                                 </div>
                             </div>

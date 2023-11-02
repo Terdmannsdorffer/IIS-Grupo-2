@@ -17,10 +17,16 @@
     max-height: 400px;
 }
 
-.resume-bar {
-    max-height: 415px; 
+.resume-list {
+    max-height: 480px; 
     overflow-y: auto; 
-    height:415px
+    height:480px
+}
+
+.resume-list-eval {
+    max-height: 400px; 
+    overflow-y: auto; 
+    height:400px
 }
 
 #resultsList {
@@ -62,3 +68,10 @@
     margin: 0;
 }
 
+.fontSizing {
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0px;
+}

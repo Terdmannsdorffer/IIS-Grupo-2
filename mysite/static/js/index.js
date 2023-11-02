@@ -192,19 +192,18 @@ let actualizar_horario = () => {
               console.log(`${dia} ${startClase} ${EndClase}`)
               console.log("ADD HOUR")
               let celda = document.getElementById(`${i}-${dia}`);
+              let class_ramo; 
               if (celda.innerHTML == "") {
                 celda.style.backgroundColor = "";
+                class_ramo = "fontSizing"
               }
               else {
                 mostrarNotificacion();
                 celda.style.backgroundColor = "#F88379";
+                class_ramo = "fontSizing mt-1"
               }
-              celda.innerHTML += `<p 
+              celda.innerHTML += `<p class="${class_ramo}"
                                   style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])};
-                                  padding: 5px;
-                                  border-radius: 5px;
-                                  font-weight: bold;
-                                  margin: 0px;
                                   ">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)}</p>`
               
             }
