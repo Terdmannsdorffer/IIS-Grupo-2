@@ -23,7 +23,7 @@
     
     <!-- notification -->
     <div id="notification" class="notification">
-        <p>¡Existe Tope de horario!</p>
+        <p id="notification_text"></p>
     </div>
 
     <!-- searchbar -->
@@ -83,10 +83,10 @@
             </div>
             <!-- Resume-bar type -->
             <div class="col-xxl-3 col-sm-12 col-lg-6 h-100">                
-                <div class="card mt-1">
+                <div id="creditosHeader" class="card mt-1">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-10 col-md-10">
+                            <div class="col-10 col-md-10 h5 fw-bold">
                                 Ramos [ Creditos: <span id="CreditValue">0</span> ]
                             </div>
                             <div id="clean-all"class="col-2 col-md-2">
@@ -101,7 +101,9 @@
                 </div>
                 <div class="card mt-1">
                     <div class="card-header">
-                        Descargas
+                        <div class="h5 fw-bold"> 
+                            Descargas 
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -130,23 +132,32 @@
             <div class="col-xxl-12 col-sm-12 col-lg-6 h-100">
                 <div class="card mt-1">
                     <div class="card-header">
-                        Evaluaciones
+                        <div class="h5 fw-bold"> 
+                            Evaluaciones
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-xxl-8 col-sm-12">
                                 <div class="card mt-1">
                                     <div class="card-header">
-                                        Pruebas
+                                        <div class="fw-bolder"> 
+                                            Pruebas
+                                        </div>
                                     </div>
                                     <div class="card-body resume-list-eval">
+                                        <div id="ListaPruebas" class="row">
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-xxl-4 col-sm-12">
                                 <div class="card mt-1">
                                     <div class="card-header">
-                                        Examenes
+                                        <div class="fw-bolder"> 
+                                            Examenes
+                                        </div>
                                     </div>
                                     <div class="card-body resume-list-eval">
                                     </div>

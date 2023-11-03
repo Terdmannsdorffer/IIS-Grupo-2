@@ -18,9 +18,9 @@
 }
 
 .resume-list {
-    max-height: 480px; 
+    max-height: 520px; 
     overflow-y: auto; 
-    height:480px
+    height:520px
 }
 
 .resume-list-eval {
@@ -49,7 +49,7 @@
 }
 
 .equal-row {
-    height: 50px; /* Establece la altura deseada para todas las filas */
+    height: 55px; /* Establece la altura deseada para todas las filas */
 }
 
 .notification {
@@ -74,4 +74,12 @@
     border-radius: 5px;
     font-weight: bold;
     margin: 0px;
+}
+
+.casilla {
+    padding: 2px !important;
+}
+
+.simple-text {
+    margin: 0;
 }

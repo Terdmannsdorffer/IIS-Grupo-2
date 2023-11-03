@@ -74,19 +74,19 @@ Se definidio una serie de endpoint para acceder desde el front-end de la web a l
   - Respuesta: Respondera con el NRC y el titulo de todos los cursos
 
 - Acceso a cursos segun NRC **[GET]**
-  - Link: `<URL-BASE>/api/cursos/NRC/<NRC>`
+  - Link: `<URL-BASE>/api/curso/NRC/<NRC>`
   - Respuesta: Responda con todas las filas de un curso, segun el NRC entregado
 
 - Acceso a horario del cursos segun NRC **[GET]**
-  - Link: `<URL-BASE>/api/cursos/NRC/<NRC>/horario`
+  - Link: `<URL-BASE>/api/curso/NRC/<NRC>/horario`
   - Respuesta: Responda con todas las filas de relacionados a las clases normales de un curso, segun el NRC entregado
 
 - Acceso a pruebas del cursos segun NRC **[GET]**
-  - Link: `<URL-BASE>/api/cursos/NRC/<NRC>/pruebas`
+  - Link: `<URL-BASE>/api/curso/NRC/<NRC>/pruebas`
   - Respuesta: Responda con todas las filas de relacionados a las pruebas de un curso, segun el NRC entregado
 
 - Acceso a examen del cursos segun NRC **[GET]**
-  - Link: `<URL-BASE>/api/cursos/NRC/<NRC>/examen`
+  - Link: `<URL-BASE>/api/curso/NRC/<NRC>/examen`
   - Respuesta: Responda con todas las filas de relacionados al examen de un curso, segun el NRC entregado
 
 

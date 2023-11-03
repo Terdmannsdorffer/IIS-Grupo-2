@@ -114,6 +114,8 @@ let refresh_horario = () => {
   actualizar_lista();
   actualizar_horario();
   actualizar_creditos();
+  actualizar_pruebas();
+  actualizar_examenes();
   check_ramos();
 }
 
@@ -176,6 +178,36 @@ let get_RamoNrc = (nrcRamo) => {
     });
 }
 
+let get_PruebasNrc = (nrcRamo) => {
+  return fetch(URL_BASE+'/api/curso/NRC/' + nrcRamo + '/pruebas')
+    .then(response => {
+      if (response.ok) {
+        // Si la respuesta es exitosa, convierte la respuesta a JSON y retorna la promesa
+        return response.json();
+      }
+      throw new Error('Error al obtener los datos');
+    })
+    .catch(error => {
+      // Maneja errores de solicitud
+      console.error(error);
+    });
+}
+
+let get_ExamenNrc = (nrcRamo) => {
+  return fetch(URL_BASE+'/api/curso/NRC/' + nrcRamo + '/examen')
+    .then(response => {
+      if (response.ok) {
+        // Si la respuesta es exitosa, convierte la respuesta a JSON y retorna la promesa
+        return response.json();
+      }
+      throw new Error('Error al obtener los datos');
+    })
+    .catch(error => {
+      // Maneja errores de solicitud
+      console.error(error);
+    });
+}
+
 let actualizar_horario = () => {
   crearHorario();
   console.log("actualizar_horario")
@@ -194,17 +226,17 @@ let actualizar_horario = () => {
               let celda = document.getElementById(`${i}-${dia}`);
               let class_ramo; 
               if (celda.innerHTML == "") {
-                celda.style.backgroundColor = "";
+                celda.style.border = "";
                 class_ramo = "fontSizing"
               }
               else {
-                mostrarNotificacion();
-                celda.style.backgroundColor = "#F88379";
+                mostrarNotificacion("¡Existe Tope de horario!");
+                celda.style.border = "3px solid red";
                 class_ramo = "fontSizing mt-1"
               }
               celda.innerHTML += `<p class="${class_ramo}"
-                                  style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])};
-                                  ">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)}</p>`
+                                  style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])}; font-size: 90%;
+                                  ">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)} </br> <span style="font-size: 70%;margin: 0%"> ${clase.SALA.replace("-","")} </span></p>`
               
             }
             
@@ -225,6 +257,7 @@ let actualizar_lista = () => {
     var ramo = ele.TITULO;
     var profesor = ele.PROFESOR;
     var nrc = ele.NRC;
+    
     var color_nrc = make_color(nrc)
 
     // Crea un nuevo elemento <a>
@@ -272,13 +305,56 @@ let actualizar_lista = () => {
 
 }
 
+let actualizar_pruebas = () => {
+  ramosSelected.map(ramo => {
+    get_PruebasNrc(ramo.NRC).then(data => {
+      console.log(data)
+      let contenedor = document.getElementById("ListaPruebas");
+      data.map(prueba => {
+        let hora = diaSemana.map(dia => prueba[dia]).filter(valor => valor !== "")[0];
+        contenedor.innerHTML += `
+        <div class="col-xxl-6 col-sm-12 mt-1">
+          <div class="card">
+              <div class="card-body">
+                  <p class="h6">${prueba.TITULO}</p>
+                  <p class="simple-text">Descripción: ${prueba.TIPO}</p>
+                  <p class="simple-text">Fecha: ${prueba.FIN}</p>
+                  <p class="simple-text">Hora: ${hora}</p>
+                  <p class="simple-text">Sala: ${prueba.SALA}</p>
+              </div>
+          </div>
+        </div>`
+      })
+    }).catch(error => {
+      console.error(error);
+    });
+  })
+}
+
+let actualizar_examenes = () => {
+  ramosSelected.map(ramo => {
+    get_ExamenNrc(ramo.NRC).then(data => {
+      console.log("AAAAAA")
+      console.log(data)
+    })
+  })
+}
+
 let actualizar_creditos = () => {
   let creditCounter = document.getElementById("CreditValue");
+  let creditHeader = document.getElementById("creditosHeader");
   let counter = 0
   creditCounter.innerHTML = 0
   ramosSelected.map(ramo => {
     get_RamoNrc(ramo.NRC).then(data => {
       counter += parseInt(data[0].CREDITO)
+      if (counter > 31) {
+        mostrarNotificacion("¡Existe Tope de Creditos!")
+        creditHeader.classList.add("border-danger")
+      }
+      else {
+        creditHeader.classList.remove("border-danger")
+      }
       creditCounter.innerHTML = counter
       return
     })
@@ -317,13 +393,13 @@ let crearHorario = () => {
     // Define el contenido HTML para la nueva fila
     nuevoFila.innerHTML = '<th scope="row">'+ `${i}:30` +'</th>' +
                         '<th scope="row">'+ `${i+1}:20` +'</th>' +
-                        '<td' + ` id="${i}-LUNES"` +  '></td>' +
-                        '<td' + ` id="${i}-MARTES"` +  '></td>' +
-                        '<td' + ` id="${i}-MIERCOLES"` +  '></td>' +
-                        '<td' + ` id="${i}-JUEVES"` +  '></td>' +
-                        '<td' + ` id="${i}-VIERNES"` +  '></td>' +
-                        '<td' + ` id="${i}-SABADO"` +  '></td>' +
-                        '<td' + ` id="${i}-DOMINGO"` +  '></td>';
+                        '<td class="casilla" ' + ` id="${i}-LUNES"` +  '></td>' +
+                        '<td class="casilla" ' + ` id="${i}-MARTES"` +  '></td>' +
+                        '<td class="casilla" ' + ` id="${i}-MIERCOLES"` +  '></td>' +
+                        '<td class="casilla" ' + ` id="${i}-JUEVES"` +  '></td>' +
+                        '<td class="casilla" ' + ` id="${i}-VIERNES"` +  '></td>' +
+                        '<td class="casilla" ' + ` id="${i}-SABADO"` +  '></td>' +
+                        '<td class="casilla" ' + ` id="${i}-DOMINGO"` +  '></td>';
 
     // Agrega la nueva fila al tbody
     tabla.appendChild(nuevoFila);
@@ -409,7 +485,9 @@ let SaveHorario = () => {
   });
 }
 
-let mostrarNotificacion = () => {
+let mostrarNotificacion = (notiText) => {
+  var TextSpace = document.getElementById("notification_text");
+  TextSpace.innerHTML = notiText
   var notification = document.getElementById("notification");
   notification.style.display = "block";
   setTimeout(function() {
@@ -420,7 +498,7 @@ let mostrarNotificacion = () => {
 let cerrarNotificacion = () => {
   var notification = document.getElementById("notification");
   notification.style.display = "none";
-}
+ }
 
 selectElement.addEventListener("change", function () {
   tipoBusqueda = selectElement.value;

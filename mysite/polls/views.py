@@ -84,7 +84,7 @@ def api_cursos_nrc_tipo(request, nrc, tipo):
             return JsonResponse({'error': 'NRC no encontrado'}, status=404)   
         
         elif tipo == "horario":
-            registros_lista = list(registros.filter(~Q(TIPO__regex=r"(^PR.*)|(^EX.*)")).values('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO','TIPO' ))   
+            registros_lista = list(registros.filter(~Q(TIPO__regex=r"(^PR.*)|(^EX.*)")).values('LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO', 'DOMINGO','TIPO', "SALA" ))   
             return JsonResponse(registros_lista, safe=False)      
         elif tipo == "pruebas":
             registros_lista = list(registros.filter(Q(TIPO__regex=r"(^PR.*)")).values())   
@@ -96,8 +96,4 @@ def api_cursos_nrc_tipo(request, nrc, tipo):
             return JsonResponse({'error': 'Método no permitido'}, status=405)
     return JsonResponse({'error': 'Método no permitido'}, status=405)
 
-## New
-def course_detail(request, course_id):
-    course = get_object_or_404(tablaRamos, pk=course_id)
-    return render(request, 'polls/course_detail.html', {'course': course})
 
