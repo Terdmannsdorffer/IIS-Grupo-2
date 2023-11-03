@@ -234,9 +234,10 @@ let actualizar_horario = () => {
                 celda.style.border = "3px solid red";
                 class_ramo = "fontSizing mt-1"
               }
-              celda.innerHTML += `<p class="${class_ramo}"
-                                  style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])}; font-size: 90%;
-                                  ">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)} </br> <span style="font-size: 70%;margin: 0%"> ${clase.SALA.replace("-","")} </span></p>`
+              celda.innerHTML += `<div class="${class_ramo}" style="background-color: #${make_color(ramo.NRC, clase.TIPO[0])}; font-size: 90%">
+                                  <p style="margin: 0%">[${clase.TIPO[0]}] ${resume_title(ramo.TITULO)}</p> 
+                                  <p style="font-size: 80%;margin: 0%"> ${clase.SALA.replace("-","")} </p>
+                                  </div>`
               
             }
             
@@ -310,13 +311,14 @@ let actualizar_pruebas = () => {
     get_PruebasNrc(ramo.NRC).then(data => {
       console.log(data)
       let contenedor = document.getElementById("ListaPruebas");
+      contenedor.innerHTML = ""
       data.map(prueba => {
         let hora = diaSemana.map(dia => prueba[dia]).filter(valor => valor !== "")[0];
         contenedor.innerHTML += `
         <div class="col-xxl-6 col-sm-12 mt-1">
-          <div class="card">
+          <div class="card" style="background-color: #${make_color(ramo.NRC)};">
               <div class="card-body">
-                  <p class="h6">${prueba.TITULO}</p>
+                  <p class="h6 fw-bold">${prueba.TITULO}</p>
                   <p class="simple-text">Descripción: ${prueba.TIPO}</p>
                   <p class="simple-text">Fecha: ${prueba.FIN}</p>
                   <p class="simple-text">Hora: ${hora}</p>
@@ -334,9 +336,27 @@ let actualizar_pruebas = () => {
 let actualizar_examenes = () => {
   ramosSelected.map(ramo => {
     get_ExamenNrc(ramo.NRC).then(data => {
-      console.log("AAAAAA")
       console.log(data)
-    })
+      let contenedor = document.getElementById("ListaExamenes");
+      contenedor.innerHTML = ""
+      data.map(examen => {
+        let hora = diaSemana.map(dia => examen[dia]).filter(valor => valor !== "")[0];
+        contenedor.innerHTML += `
+        <div class="col-xxl-6 col-sm-12 mt-1">
+          <div class="card" style="background-color: #${make_color(ramo.NRC)};">
+              <div class="card-body">
+                  <p class="h6 fw-bold">${examen.TITULO}</p>
+                  <p class="simple-text">Descripción: ${examen.TIPO}</p>
+                  <p class="simple-text">Fecha: ${examen.FIN}</p>
+                  <p class="simple-text">Hora: ${hora}</p>
+                  <p class="simple-text">Sala: ${examen.SALA}</p>
+              </div>
+          </div>
+        </div>`
+      })
+    }).catch(error => {
+      console.error(error);
+    });
   })
 }
 
