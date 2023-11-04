@@ -143,9 +143,11 @@ let check_ramos = () => {
 };
 
 let remove_all = () => {
+  let creditHeader = document.getElementById("creditosHeader");
+  creditHeader.classList.remove("border-danger")
   ramosSelected = []
-  refresh_horario();
   localStorage.removeItem('ramosSelectedSave');
+  refresh_horario();
 }
 
 let get_HorarioNrc = (nrcRamo) => {
@@ -307,11 +309,10 @@ let actualizar_lista = () => {
 }
 
 let actualizar_pruebas = () => {
+  let contenedor = document.getElementById("ListaPruebas");
+  contenedor.innerHTML = ""
   ramosSelected.map(ramo => {
-    get_PruebasNrc(ramo.NRC).then(data => {
-      console.log(data)
-      let contenedor = document.getElementById("ListaPruebas");
-      contenedor.innerHTML = ""
+    get_PruebasNrc(ramo.NRC).then(data => {      
       data.map(prueba => {
         let hora = diaSemana.map(dia => prueba[dia]).filter(valor => valor !== "")[0];
         contenedor.innerHTML += `
@@ -334,11 +335,10 @@ let actualizar_pruebas = () => {
 }
 
 let actualizar_examenes = () => {
+  let contenedor = document.getElementById("ListaExamenes");
+  contenedor.innerHTML = ""
   ramosSelected.map(ramo => {
     get_ExamenNrc(ramo.NRC).then(data => {
-      console.log(data)
-      let contenedor = document.getElementById("ListaExamenes");
-      contenedor.innerHTML = ""
       data.map(examen => {
         let hora = diaSemana.map(dia => examen[dia]).filter(valor => valor !== "")[0];
         contenedor.innerHTML += `
@@ -368,7 +368,7 @@ let actualizar_creditos = () => {
   ramosSelected.map(ramo => {
     get_RamoNrc(ramo.NRC).then(data => {
       counter += parseInt(data[0].CREDITO)
-      if (counter > 31) {
+      if (counter > 33) {
         mostrarNotificacion("¡Existe Tope de Creditos!")
         creditHeader.classList.add("border-danger")
       }
@@ -380,7 +380,6 @@ let actualizar_creditos = () => {
     })
   })
 }
-
 
 let eliminar_ramo = (nrcRamo) => {
   console.log(nrcRamo)
@@ -483,7 +482,6 @@ let busqueda = () => {
 };
 
 let SaveHorario = () => {
-  console.log("saveeee")
   const elementToConvert = document.getElementById('MainTable'); 
 
   html2canvas(elementToConvert).then(function(canvas) {
@@ -504,6 +502,56 @@ let SaveHorario = () => {
     });
   });
 }
+
+let SaveEvaluaciones = () => {
+  const elementToClone = document.getElementById('EvaluacionesTable');
+  const clone = elementToClone.cloneNode(true);
+
+  
+  clone.classList.remove('col-sm-12', 'col-lg-6', 'col-xxl-12');
+  clone.classList.add('col-12');
+
+  clone.querySelector('#pruebaList').classList.replace('resume-list-eval','resume-list-eval-wo');
+  clone.querySelector('#examenList').classList.replace('resume-list-eval','resume-list-eval-wo');
+
+  clone.querySelector('#pruebaListRow').classList.remove('col-xxl-8', 'col-sm-12');
+  clone.querySelector('#pruebaListRow').classList.add('col-8');
+  
+  clone.querySelector('#examenListRow').classList.remove('col-xxl-4', 'col-sm-12');
+  clone.querySelector('#examenListRow').classList.add('col-4');
+
+  Array.from(clone.querySelector('#ListaPruebas').children).forEach((node) => {
+    node.classList.remove('col-sm-12', 'col-xxl-6');
+    node.classList.add('col-6');
+  });
+
+  // Agrega el clon al cuerpo del documento temporalmente
+  document.body.appendChild(clone);
+
+  // Captura una imagen del clon
+  html2canvas(clone).then(function(canvas) {
+    canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+
+        // Crea un enlace de descarga
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'mi_imagen.png'; // Nombre predeterminado del archivo
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // Elimina el clon
+        document.body.removeChild(clone);
+
+        // Libera el recurso URL
+        URL.revokeObjectURL(url);
+    });
+  });
+}
+
+
 
 let mostrarNotificacion = (notiText) => {
   var TextSpace = document.getElementById("notification_text");
@@ -546,6 +594,7 @@ if (localStorage.getItem('ramosSelectedSave') !== null) {
 
 
 document.getElementById('SaveHorarioBtn').addEventListener('click', SaveHorario);
+document.getElementById('SaveEvaluacionesBtn').addEventListener('click', SaveEvaluaciones);
 
 
 
