@@ -254,57 +254,54 @@ let actualizar_horario = () => {
 
 let actualizar_lista = () => {
   let contenedor = document.getElementById("ListaRamos");
-  contenedor.innerHTML = ""
+  contenedor.innerHTML = "";
+
   ramosSelected.map(ele => {
     // Variables con los datos a reemplazar
     var ramo = ele.TITULO;
     var profesor = ele.PROFESOR;
     var nrc = ele.NRC;
-    
-    var color_nrc = make_color(nrc)
 
-    // Crea un nuevo elemento <a>
-    var nuevoElemento = document.createElement("a");
-    nuevoElemento.href = "#";
-    nuevoElemento.className = "list-group-item list-group-item-action flex-column align-items-start";
-    nuevoElemento.style.backgroundColor = "#" + color_nrc;
+    var color_nrc = make_color(nrc);
 
-    nuevoElemento.addEventListener("click", function() {
-      // Obtiene el valor del nrc del elemento
-      var nrcValue = nrc;
+    // Crea un nuevo elemento <div> para la card
+    var card = document.createElement("div");
+    card.className = "card mb-3";
+    card.style.backgroundColor = "#" + color_nrc;
+
+    let isMouseHover = false
+    card.addEventListener("mouseleave", function (event) {
+      card.classList.remove("list-group-item-danger");
+      card.style.backgroundColor = "#" + color_nrc;
+      card.style.cursor = ""
+      
+    }, false);
+    card.addEventListener("mouseover", function (event) {
+      card.classList.add("list-group-item-danger");
+      card.style.backgroundColor = ""
+      card.style.cursor = "pointer"
+    }, false);
+
+    // Agrega un evento click a la card para eliminar el elemento
+    card.addEventListener("click", function() {
       eliminar_ramo(nrc);
     });
 
-    let isMouseHover = false
-    nuevoElemento.addEventListener("mouseleave", function (event) {
-      nuevoElemento.classList.remove("list-group-item-danger");
-      nuevoElemento.style.backgroundColor = "#" + color_nrc;
-      
-    }, false);
-    nuevoElemento.addEventListener("mouseover", function (event) {
-      nuevoElemento.classList.add("list-group-item-danger");
-      nuevoElemento.removeAttribute("style");
-    }, false);
-
+    // Crea un nuevo elemento <div> para el contenido de la card
+    var cardBody = document.createElement("div");
+    cardBody.className = "card-body";
 
     // Contenido HTML del nuevo elemento
-    nuevoElemento.innerHTML = `
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">[${resume_title(ramo)}] ${ramo}</h5>
-        <small>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
-            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-          </svg>
-      </small>
-      </div>
-      <p class="mb-1">Profesor: ${profesor}</p>
-      <small>NRC: ${nrc}</small>
+    cardBody.innerHTML = `
+      <h5 class="card-title">[${resume_title(ramo)}] ${ramo}</h5>
+      <p class="card-text">Profesor: ${profesor}</p>
+      <p class="card-text">NRC: ${nrc}</p>
     `;
 
     // Agrega el nuevo elemento al contenedor
-    contenedor.appendChild(nuevoElemento)
-
-  })
+    card.appendChild(cardBody);
+    contenedor.appendChild(card);
+  });
 
 }
 

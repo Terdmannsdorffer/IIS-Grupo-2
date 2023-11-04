@@ -18,9 +18,9 @@
 }
 
 .resume-list {
-    max-height: 520px; 
+    max-height: 650px; 
     overflow-y: auto; 
-    height:520px
+    height:650px
 }
 
 .resume-list-eval {
@@ -88,4 +88,14 @@
 
 .simple-text {
     margin: 0;
+}
+
+.navbar-dark .navbar-nav .nav-item .dropdown-item.active, .navbar-dark .navbar-nav .nav-item .dropdown-item:focus {
+    background-color: white;
+    color: black;
+}
+
+.navbar-dark .navbar-nav .nav-item .dropdown-item.active, .navbar-dark .navbar-nav .nav-item .dropdown-item:hover {
+    background-color: rgb(231, 231, 231);
+    color: black;
 }
