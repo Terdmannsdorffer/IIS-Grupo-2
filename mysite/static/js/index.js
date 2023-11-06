@@ -508,8 +508,8 @@ let SaveEvaluaciones = () => {
   clone.classList.remove('col-sm-12', 'col-lg-6', 'col-xxl-12');
   clone.classList.add('col-12');
 
-  clone.querySelector('#pruebaList').classList.replace('resume-list-eval','resume-list-eval-wo');
-  clone.querySelector('#examenList').classList.replace('resume-list-eval','resume-list-eval-wo');
+  clone.querySelector('#pruebaList').classList.remove('resume-list-eval');
+  clone.querySelector('#examenList').classList.remove('resume-list-eval');
 
   clone.querySelector('#pruebaListRow').classList.remove('col-xxl-8', 'col-sm-12');
   clone.querySelector('#pruebaListRow').classList.add('col-8');
@@ -548,7 +548,41 @@ let SaveEvaluaciones = () => {
   });
 }
 
+let SaveDetalles = () => {
+  const elementToClone = document.getElementById('DetallesTable');
+  const clone = elementToClone.cloneNode(true);
 
+  clone.querySelector('#ListaRamosBody').classList.remove('resume-list');
+
+  clone.classList.remove('col-sm-12', 'col-lg-6', 'col-xxl-12');
+  clone.classList.add('col-6');
+
+
+  // Agrega el clon al cuerpo del documento temporalmente
+  document.body.appendChild(clone);
+
+  // Captura una imagen del clon
+  html2canvas(clone).then(function(canvas) {
+    canvas.toBlob(function(blob) {
+        const url = URL.createObjectURL(blob);
+
+        // Crea un enlace de descarga
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'mi_imagen.png'; // Nombre predeterminado del archivo
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        // Elimina el clon
+        document.body.removeChild(clone);
+
+        // Libera el recurso URL
+        URL.revokeObjectURL(url);
+    });
+  });
+}
 
 let mostrarNotificacion = (notiText) => {
   var TextSpace = document.getElementById("notification_text");
@@ -592,6 +626,7 @@ if (localStorage.getItem('ramosSelectedSave') !== null) {
 
 document.getElementById('SaveHorarioBtn').addEventListener('click', SaveHorario);
 document.getElementById('SaveEvaluacionesBtn').addEventListener('click', SaveEvaluaciones);
+document.getElementById('SaveDetallesBtn').addEventListener('click', SaveDetalles);
 
 
 

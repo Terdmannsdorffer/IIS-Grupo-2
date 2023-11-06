@@ -29,12 +29,6 @@
     height:400px
 }
 
-.resume-list-eval-wo {
-    max-height: 400px; 
-    overflow-y: auto; 
-    height:400px
-}
-
 #resultsList {
     list-style: none;
     padding: 0;
